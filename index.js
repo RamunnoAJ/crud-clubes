@@ -12,11 +12,11 @@ app.set('view engine', 'handlebars')
 app.use(express.json())
 app.use(express.text('*/*'))
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname + 'uploads'))
+app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) => {
   console.log('GET /')
-  res.end('Hello world')
+  res.render('index', {})
 })
 
 app.listen(PORT)

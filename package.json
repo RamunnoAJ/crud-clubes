@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This is a CRUD application for teams",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint --fix . --ext .js",
     "format": "prettier --write .",

@@ -1,0 +1,33 @@
+<main class='flex flex-col justify-center items-center gap-8'>
+  <div class='flex flex-col gap-4 justify-center items-center'>
+    <img src='{{team.image}}' alt='{{team.name}}' />
+    <h2>{{team.name}}</h2>
+  </div>
+
+  <table class='table-auto'>
+    <thead>
+      <tr>
+        <td>Information</td>
+        <td>Value</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>{{team.name}}</td>
+      </tr>
+      <tr>
+        <td>Area</td>
+        <td>{{team.area.name}}</td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td>{{team.address}}</td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td>{{team.phone}}</td>
+      </tr>
+    </tbody>
+  </table>
+</main>

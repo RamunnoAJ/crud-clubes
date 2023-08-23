@@ -1,32 +1,37 @@
 <main class='flex flex-col justify-center items-center gap-8'>
+  <a href='/' class='self-start text-xl'><i
+      class='fa-solid fa-arrow-left'
+    ></i></a>
   <div class='flex flex-col gap-4 justify-center items-center'>
     <img width='120' src='{{team.image}}' alt='{{team.name}}' />
     <h2>{{team.name}}</h2>
   </div>
 
-  <table class='table-auto border-separate border-spacing-4'>
-    <thead>
+  <table
+    class='table-auto border-separate border-spacing-x-1 bg-slate-800 text-slate-300 shadow-sm border-8 border-slate-800 mb-8'
+  >
+    <thead class='font-semibold bg-slate-700'>
       <tr>
-        <td>Information</td>
-        <td>Value</td>
+        <td class='p-4 py-2'>Information</td>
+        <td class='p-4 py-2'>Value</td>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Name</td>
-        <td>{{team.name}}</td>
+        <td class='p-4 py-2'>Name</td>
+        <td class='p-4 py-2'>{{team.name}}</td>
       </tr>
       <tr>
-        <td>Area</td>
-        <td>{{team.area.name}}</td>
+        <td class='p-4 py-2'>Area</td>
+        <td class='p-4 py-2'>{{team.area.name}}</td>
       </tr>
       <tr>
-        <td>Address</td>
-        <td>{{team.address}}</td>
+        <td class='p-4 py-2'>Address</td>
+        <td class='p-4 py-2'>{{team.address}}</td>
       </tr>
       <tr>
-        <td>Phone</td>
-        <td>{{team.phone}}</td>
+        <td class='p-4 py-2'>Phone</td>
+        <td class='p-4 py-2'>{{team.phone}}</td>
       </tr>
     </tbody>
   </table>

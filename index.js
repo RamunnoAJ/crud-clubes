@@ -29,13 +29,13 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/teams/:id', (req, res) => {
-  const { id } = req.params
+app.get('/teams/:abbreviation', (req, res) => {
+  const { abbreviation } = req.params
   const apiTeam = JSON.parse(fs.readFileSync(`./data/equipos.json`, 'utf8'))
   const teams = apiTeam.map(team => teamMapper(team))
-  const team = teams.find(team => team.id === Number(id))
+  const team = teams.find(team => team.abbreviation === abbreviation)
 
-  console.log(`GET /teams/${id}`)
+  console.log(`GET /teams/${abbreviation}`)
   res.render('team', {
     layout: 'main',
     team,
@@ -43,4 +43,4 @@ app.get('/teams/:id', (req, res) => {
 })
 
 app.listen(PORT)
-console.log(`Listening on port ${PORT}`)
+console.log(`Listening on  localhost:${PORT}`)

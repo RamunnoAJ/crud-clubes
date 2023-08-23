@@ -2,6 +2,7 @@ import * as url from 'url'
 import fs from 'fs'
 import express from 'express'
 import expresshbs from 'express-handlebars'
+import { teamMapper } from './src/mappers/teams.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const PORT = 8080
@@ -18,10 +19,27 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) => {
-  const teams = JSON.parse(fs.readFileSync('./data/equipos.json', 'utf8'))
-  console.log(teams[0])
+  const apiTeams = JSON.parse(fs.readFileSync('./data/equipos.json', 'utf8'))
+  const teams = apiTeams.map(team => teamMapper(team))
+
   console.log('GET /')
-  res.render('index', {})
+  res.render('index', {
+    layout: 'main',
+    teams,
+  })
+})
+
+app.get('/teams/:id', (req, res) => {
+  const { id } = req.params
+  const apiTeam = JSON.parse(fs.readFileSync(`./data/equipos.json`, 'utf8'))
+  const teams = apiTeam.map(team => teamMapper(team))
+  const team = teams.find(team => team.id === Number(id))
+
+  console.log(`GET /teams/${id}`)
+  res.render('team', {
+    layout: 'main',
+    team,
+  })
 })
 
 app.listen(PORT)

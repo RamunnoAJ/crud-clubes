@@ -1,8 +1,7 @@
 import * as url from 'url'
-import fs from 'fs'
 import express from 'express'
 import expresshbs from 'express-handlebars'
-import { teamMapper } from './src/mappers/teams.js'
+import teamRouter from './src/routes/teams.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const PORT = 8080
@@ -16,31 +15,9 @@ app.set('view engine', 'handlebars')
 app.use(express.json())
 app.use(express.text('*/*'))
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/src'))
 
-app.get('/', (req, res) => {
-  const apiTeams = JSON.parse(fs.readFileSync('./data/equipos.json', 'utf8'))
-  const teams = apiTeams.map(team => teamMapper(team))
-
-  console.log('GET /')
-  res.render('index', {
-    layout: 'main',
-    teams,
-  })
-})
-
-app.get('/teams/:abbreviation', (req, res) => {
-  const { abbreviation } = req.params
-  const apiTeam = JSON.parse(fs.readFileSync(`./data/equipos.json`, 'utf8'))
-  const teams = apiTeam.map(team => teamMapper(team))
-  const team = teams.find(team => team.abbreviation === abbreviation)
-
-  console.log(`GET /teams/${abbreviation}`)
-  res.render('team', {
-    layout: 'main',
-    team,
-  })
-})
+app.use('/', teamRouter)
 
 app.listen(PORT)
 console.log(`Listening on  localhost:${PORT}`)

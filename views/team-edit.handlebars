@@ -1,13 +1,19 @@
-<form
-  method='POST'
-  action='/teams/{{team.abbreviation}}'
-  class='flex flex-col gap-1'
-  id='form'
->
+<form class='flex flex-col gap-1' id='form'>
+  <div class='flex flex-col gap-1'>
+    <label for='abbreviation'>TLA:</label>
+    <input
+      id='abbreviation'
+      name='abbreviation'
+      type='text'
+      value='{{team.abbreviation}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
   <div class='flex flex-col gap-1'>
     <label for='name'>Name:</label>
     <input
       id='name'
+      name='name'
       type='text'
       value='{{team.name}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -17,6 +23,7 @@
     <label for='country'>Country:</label>
     <input
       id='country'
+      name='country'
       type='text'
       value='{{team.area.name}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -26,6 +33,7 @@
     <label for='address'>Address:</label>
     <input
       id='address'
+      name='address'
       type='text'
       value='{{team.address}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -35,15 +43,17 @@
     <label for='phone'>Phone:</label>
     <input
       id='phone'
+      name='phone'
       type='text'
       value='{{team.phone}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
     />
   </div>
   <div class='flex flex-col gap-1'>
-    <label for='mail'>Mail:</label>
+    <label for='email'>Email:</label>
     <input
-      id='mail'
+      id='email'
+      name='email'
       type='email'
       value='{{team.email}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -53,6 +63,7 @@
     <label for='website'>Website:</label>
     <input
       id='website'
+      name='website'
       type='text'
       value='{{team.website}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -62,6 +73,7 @@
     <label for='founded'>Founded:</label>
     <input
       id='founded'
+      name='founded'
       type='number'
       value='{{team.founded}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -71,6 +83,7 @@
     <label for='stadium'>Stadium:</label>
     <input
       id='stadium'
+      name='stadium'
       type='text'
       value='{{team.stadium}}'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
@@ -80,6 +93,7 @@
     <label for='image'>Image:</label>
     <input
       id='image'
+      name='image'
       type='file'
       class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
     />
@@ -90,4 +104,4 @@
   >Enviar</button>
 </form>
 
-<script src='/src/handleFocusInput.js'></script>
+<script src='/src/handleForm.js'></script>

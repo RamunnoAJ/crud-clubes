@@ -22,6 +22,12 @@
       </tr>
     </thead>
     <tbody>
+      {{#if team.abbreviation}}
+        <tr>
+          <td class='p-4 py-2'>TLA</td>
+          <td class='p-4 py-2'>{{team.abbreviation}}</td>
+        </tr>
+      {{/if}}
       {{#if team.name}}
         <tr>
           <td class='p-4 py-2'>Name</td>

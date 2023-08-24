@@ -1,9 +1,14 @@
-<main class='flex flex-col justify-center items-center gap-8'>
-  <a href='/' class='self-start text-xl'><i
+<main class='flex flex-col justify-center items-center gap-8 relative'>
+  <a href='/' class='self-start text-xl absolute top-1 left-1'><i
       class='fa-solid fa-arrow-left'
     ></i></a>
   <div class='flex flex-col gap-4 justify-center items-center'>
-    <img width='120' src='{{team.image}}' alt='{{team.name}}' />
+    <img
+      width='120'
+      src='{{team.image}}'
+      alt='{{team.name}}'
+      onerror="this.onerror=null;this.src='/assets/shield-crest-placeholder.png'"
+    />
     <h2>{{team.name}}</h2>
   </div>
 
@@ -17,22 +22,54 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class='p-4 py-2'>Name</td>
-        <td class='p-4 py-2'>{{team.name}}</td>
-      </tr>
-      <tr>
-        <td class='p-4 py-2'>Area</td>
-        <td class='p-4 py-2'>{{team.area.name}}</td>
-      </tr>
-      <tr>
-        <td class='p-4 py-2'>Address</td>
-        <td class='p-4 py-2'>{{team.address}}</td>
-      </tr>
-      <tr>
-        <td class='p-4 py-2'>Phone</td>
-        <td class='p-4 py-2'>{{team.phone}}</td>
-      </tr>
+      {{#if team.name}}
+        <tr>
+          <td class='p-4 py-2'>Name</td>
+          <td class='p-4 py-2'>{{team.name}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.area.name}}
+        <tr>
+          <td class='p-4 py-2'>Area</td>
+          <td class='p-4 py-2'>{{team.area.name}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.address}}
+        <tr>
+          <td class='p-4 py-2'>Address</td>
+          <td class='p-4 py-2'>{{team.address}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.phone}}
+        <tr>
+          <td class='p-4 py-2'>Phone</td>
+          <td class='p-4 py-2'>{{team.phone}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.email}}
+        <tr>
+          <td class='p-4 py-2'>Email</td>
+          <td class='p-4 py-2'>{{team.email}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.website}}
+        <tr>
+          <td class='p-4 py-2'>Website</td>
+          <td class='p-4 py-2'>{{team.website}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.founded}}
+        <tr>
+          <td class='p-4 py-2'>Founded</td>
+          <td class='p-4 py-2'>{{team.founded}}</td>
+        </tr>
+      {{/if}}
+      {{#if team.stadium}}
+        <tr>
+          <td class='p-4 py-2'>Stadium</td>
+          <td class='p-4 py-2'>{{team.stadium}}</td>
+        </tr>
+      {{/if}}
     </tbody>
   </table>
   <div>

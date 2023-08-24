@@ -1,4 +1,93 @@
-<form method='POST' action='/teams/{{team.abbreviation}}'>
-  {{team.abbreviation}}
-  <button type='submit'>Enviar</button>
+<form
+  method='POST'
+  action='/teams/{{team.abbreviation}}'
+  class='flex flex-col gap-1'
+  id='form'
+>
+  <div class='flex flex-col gap-1'>
+    <label for='name'>Name:</label>
+    <input
+      id='name'
+      type='text'
+      value='{{team.name}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='country'>Country:</label>
+    <input
+      id='country'
+      type='text'
+      value='{{team.area.name}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='address'>Address:</label>
+    <input
+      id='address'
+      type='text'
+      value='{{team.address}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='phone'>Phone:</label>
+    <input
+      id='phone'
+      type='text'
+      value='{{team.phone}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='mail'>Mail:</label>
+    <input
+      id='mail'
+      type='email'
+      value='{{team.email}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='website'>Website:</label>
+    <input
+      id='website'
+      type='text'
+      value='{{team.website}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='founded'>Founded:</label>
+    <input
+      id='founded'
+      type='number'
+      value='{{team.founded}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='stadium'>Stadium:</label>
+    <input
+      id='stadium'
+      type='text'
+      value='{{team.stadium}}'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='image'>Image:</label>
+    <input
+      id='image'
+      type='file'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <button
+    type='submit'
+    class='py-2 px-4 uppercase font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-white w-32 self-end mt-4'
+  >Enviar</button>
 </form>
+
+<script src='/src/handleFocusInput.js'></script>

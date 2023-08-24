@@ -15,7 +15,9 @@ app.set('view engine', 'handlebars')
 app.use(express.json())
 app.use(express.text('*/*'))
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname + '/src'))
+app.use(express.static(__dirname + 'public/'))
+app.use(express.static(__dirname + 'public/assets'))
+app.use(express.static(__dirname + 'public/src'))
 
 app.use('/', teamRouter)
 

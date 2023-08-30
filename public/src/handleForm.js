@@ -1,5 +1,6 @@
 const $form = document.querySelector('#form')
 const $inputs = $form.querySelectorAll('input')
+const abbreviation = $form.querySelector('#abbreviation').value
 
 $form.addEventListener('submit', handleSubmitForm)
 $inputs.forEach(input => {
@@ -16,7 +17,17 @@ function handleSubmitForm(e) {
   e.preventDefault()
 
   const formData = new FormData($form)
-  postFormData(`teams/update/${formData.get('abbreviation')}`, formData)
+  const formDataObject = {}
+
+  for (const [key, value] of formData.entries()) {
+    formDataObject[key] = value
+  }
+
+  if (window.location.href.includes('edit')) {
+    postFormData(`teams/update/${abbreviation}`, formDataObject)
+  } else {
+    postFormData(`teams/create/${formData.get('abbreviation')}`, formData)
+  }
 }
 
 /*
@@ -24,8 +35,10 @@ function handleSubmitForm(e) {
  * @param {Object} data
  * */
 function postFormData(route, data) {
+  const transformedData = data
+
   fetch(`http://localhost:8080/${route}`, {
     method: 'POST',
-    body: data,
+    body: JSON.stringify(transformedData),
   })
 }

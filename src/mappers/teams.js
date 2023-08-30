@@ -1,24 +1,54 @@
-import { Team } from '../entities/teams.js'
+import { Team, TeamApi } from '../entities/teams.js'
 
+/** @typedef {import('../entities/teams.js').Team} Team
+ * @typedef {import('../entities/teams.js').TeamApi} TeamApi
+ * */
+
+/**
+ * @param {TeamApi} apiData
+ * @return {Team}
+ * */
 export function teamMapper(apiData) {
   const {
     id,
     area,
     name,
-    tla: abbreviation,
-    crestUrl: image,
+    tla,
+    crestUrl,
     address,
     phone,
     website,
     email,
     founded,
-    clubColors: colors,
-    venue: stadium,
+    clubColors,
+    venue,
+    lastUpdated,
   } = apiData
 
   return new Team(
     id,
     area,
+    name,
+    tla,
+    crestUrl,
+    address,
+    phone,
+    website,
+    email,
+    founded,
+    clubColors,
+    venue,
+    lastUpdated,
+  )
+}
+
+/**
+ * @param {Team} team
+ * @return {TeamApi}
+ * */
+export function teamApiMapper(team) {
+  const {
+    id,
     name,
     abbreviation,
     image,
@@ -29,5 +59,32 @@ export function teamMapper(apiData) {
     founded,
     colors,
     stadium,
+    lastUpdated,
+    area,
+  } = team
+
+  let country = team.country
+
+  if (typeof country === 'string') {
+    country = { name: country }
+  } else {
+    country = area
+  }
+
+  return new TeamApi(
+    id,
+    country,
+    name,
+    name,
+    abbreviation,
+    image,
+    address,
+    phone,
+    website,
+    email,
+    Number(founded),
+    colors,
+    stadium,
+    lastUpdated,
   )
 }

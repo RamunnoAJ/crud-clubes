@@ -2,7 +2,7 @@
 
 import fs from 'fs'
 import * as url from 'url'
-import { teamMapper } from '../mappers/teams.js'
+import { teamApiMapper, teamMapper } from '../mappers/teams.js'
 import { checkTeamExists } from '../utils/checkTeamExists.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
@@ -27,15 +27,31 @@ export function deleteTeam(abbreviation) {
  * */
 export function updateTeam(abbreviation, newTeam) {
   const team = teamsDB.find(team => team.abbreviation === abbreviation)
-  const isExistent = checkTeamExists(teamsDB, newTeam.abbreviation)
+  const isExistent = checkTeamExists(teamsDB, newTeam.tla)
+  newTeam.lastUpdated = new Date().toISOString()
 
-  if (isExistent !== undefined && team.abbreviation !== newTeam.abbreviation) {
+  for (const key in newTeam) {
+    if (newTeam[key] !== undefined) {
+      if (key === 'area') {
+        team.country = newTeam.area.name
+      } else if (key === 'crestUrl') {
+        team.crestUrl = newTeam.image
+      } else if (key === 'tla') {
+        team.abbreviation = newTeam.tla
+      } else {
+        team[key] = newTeam[key]
+      }
+    }
+  }
+
+  if (isExistent !== undefined && team.abbreviation !== newTeam.tla) {
     throw new Error('Abbreviation already exists')
   }
 
-  teamsDB.splice(teamsDB.indexOf(team), 1, newTeam)
+  const teams = teamsDB.toSpliced(teamsDB.indexOf(team), 1, team)
+  const updatedTeams = teams.map(team => teamApiMapper(team))
 
-  return fs.writeFileSync(teamsDirectory, JSON.stringify(teamsDB))
+  return fs.writeFileSync(teamsDirectory, JSON.stringify(updatedTeams))
 }
 
 /*
@@ -50,8 +66,7 @@ export function getTeams() {
  * @return {Team}
  * */
 export function getTeamByAbbreviation(abbreviation) {
-  if (!abbreviation || typeof abbreviation !== 'string')
-    throw new Error('Invalid team abbreviation')
+  if (!abbreviation) throw new Error('Invalid team abbreviation')
 
   const team = teamsDB.find(team => team.abbreviation === abbreviation)
 

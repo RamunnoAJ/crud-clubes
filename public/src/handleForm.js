@@ -1,17 +1,7 @@
 const $form = document.querySelector('#form')
-const $inputs = $form.querySelectorAll('input')
 const abbreviation = $form.querySelector('#abbreviation').value
 
 $form.addEventListener('submit', handleSubmitForm)
-$inputs.forEach(input => {
-  if (input.type !== 'file') {
-    input.addEventListener('focus', handleFocusInput)
-  }
-})
-
-function handleFocusInput(e) {
-  e.target.value = ''
-}
 
 function handleSubmitForm(e) {
   e.preventDefault()
@@ -26,7 +16,7 @@ function handleSubmitForm(e) {
   if (window.location.href.includes('edit')) {
     postFormData(`teams/update/${abbreviation}`, formDataObject)
   } else {
-    postFormData(`teams/create/${formData.get('abbreviation')}`, formData)
+    postFormData(`teams/create`, formDataObject)
   }
 }
 

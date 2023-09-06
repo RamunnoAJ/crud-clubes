@@ -72,3 +72,18 @@ export function getTeamByAbbreviation(abbreviation) {
 
   return team
 }
+
+export function createTeam(newTeam) {
+  newTeam.lastUpdated = new Date().toISOString()
+
+  const isExistent = checkTeamExists(teamsDB, newTeam.tla)
+  if (isExistent !== undefined) {
+    throw new Error('Abbreviation already exists')
+  }
+
+  console.log(newTeam)
+  const teams = teamsDB.toSpliced(teamsDB.length, 0, newTeam)
+  const updatedTeams = teams.map(team => teamApiMapper(team))
+
+  return fs.writeFileSync(teamsDirectory, JSON.stringify(updatedTeams))
+}

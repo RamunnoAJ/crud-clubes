@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + 'public/'))
 app.use(express.static(__dirname + 'public/assets'))
 app.use(express.static(__dirname + 'public/src'))
+app.use(express.static(__dirname + 'public/uploads'))
 
 app.use('/', teamRouter)
 

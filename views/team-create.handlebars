@@ -1,0 +1,111 @@
+<a href='/' class='self-start text-xl mt-4'>
+  <i class='fa-solid fa-arrow-left'></i>
+</a>
+<h2>New Team</h2>
+<form class='flex flex-col gap-1' id='form' enctype="multipart/form-data">
+  <div class='flex flex-col gap-1'>
+    <label for='name'>Name:</label>
+    <input
+      id='name'
+      name='name'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='abbreviation'>TLA:</label>
+    <input
+      id='abbreviation'
+      name='abbreviation'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='country'>Country:</label>
+    <input
+      id='country'
+      name='country'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='image'>Image:</label>
+    <input
+      id='image'
+      name='image'
+      type='file'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='address'>Address:</label>
+    <input
+      id='address'
+      name='address'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='phone'>Phone:</label>
+    <input
+      id='phone'
+      name='phone'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='website'>Website:</label>
+    <input
+      id='website'
+      name='website'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='email'>Email:</label>
+    <input
+      id='email'
+      name='email'
+      type='email'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='founded'>Founded:</label>
+    <input
+      id='founded'
+      name='founded'
+      type='number'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='colors'>Club colors:</label>
+    <input
+      id='colors'
+      name='colors'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <div class='flex flex-col gap-1'>
+    <label for='stadium'>Stadium:</label>
+    <input
+      id='stadium'
+      name='stadium'
+      type='text'
+      class='p-2 rounded bg-slate-800 text-white shadow-sm focus:outline-none focus:ring focus:ring-slate-700'
+    />
+  </div>
+  <button
+    type='submit'
+    class='p-2 uppercase font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-white w-32 self-end mt-4'
+  >Send</button>
+</form>
+
+<script src='/src/handleForm.js'></script>

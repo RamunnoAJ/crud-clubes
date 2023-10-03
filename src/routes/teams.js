@@ -7,14 +7,15 @@ import {
 } from '../api/teams.js'
 import { teamApiMapper } from '../mappers/teams.js'
 import multer from 'multer'
+import path from 'path'
 
 const storage = multer.diskStorage({
-  destination: function (_, __, cb) {
-    cb(null, 'public/uploads')
+  destination: (_, __, cb) => {
+    cb(null, 'public/uploads/images/')
   },
-  filename: function (_, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
+  filename: (_, file, cb) => {
+    const ext = path.extname(file.originalname)
+    cb(null, `${Date.now()}${ext}`)
   },
 })
 
@@ -38,11 +39,17 @@ teamRouter.get('/teams/create', (_, res) => {
 })
 
 teamRouter.post('/teams/create', upload.single('image'), (req, res) => {
-  console.log(req.body)
-  const teamData = teamApiMapper(JSON.parse(req.body))
-  if (teamData === undefined) return res.status(400).send()
+  if (!req.file) return res.status(400).send('No file uploaded.')
+  console.log('File: ', req.file)
+
+  req.body.image = '/' + req.file.path
+  console.log('Body: ', req.body)
+  const teamData = teamApiMapper(req.body)
+  if (teamData === undefined) return res.status(400).send('Invalid team data.')
 
   createTeam(teamData)
+
+  return res.status(200).send()
 })
 
 teamRouter.get('/teams/:abbreviation', (req, res) => {
@@ -69,9 +76,9 @@ teamRouter.post(
   '/teams/update/:abbreviation',
   upload.single('image'),
   (req, res) => {
-    console.log(req.file)
     const { abbreviation } = req.params
-    const teamData = teamApiMapper(JSON.parse(req.body))
+    console.log(abbreviation)
+    const teamData = teamApiMapper(req.body)
     const team = getTeamByAbbreviation(abbreviation)
 
     if (team === undefined) return res.status(400).send()

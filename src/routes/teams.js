@@ -6,6 +6,7 @@ import {
   createTeam,
 } from '../api/teams.js'
 import { teamApiMapper } from '../mappers/teams.js'
+import { handleErrorsCreateTeam } from '../utils/handleErrors.js'
 import multer from 'multer'
 import path from 'path'
 
@@ -40,14 +41,17 @@ teamRouter.get('/teams/create', (_, res) => {
 
 teamRouter.post('/teams/create', upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.')
-  console.log('File: ', req.file)
 
   req.body.image = '/' + req.file.path
-  console.log('Body: ', req.body)
   const teamData = teamApiMapper(req.body)
   if (teamData === undefined) return res.status(400).send('Invalid team data.')
 
-  createTeam(teamData)
+  const errors = handleErrorsCreateTeam(teamData)
+  if (errors.length > 0) return res.status(400).send(errors.join('\n'))
+
+  const team = createTeam(teamData)
+  if (team instanceof Error)
+    return res.status(400).send('Abbreviation already exists.')
 
   return res.status(200).send()
 })
@@ -55,6 +59,13 @@ teamRouter.post('/teams/create', upload.single('image'), (req, res) => {
 teamRouter.get('/teams/:abbreviation', (req, res) => {
   const { abbreviation } = req.params
   const team = getTeams().find(team => team.abbreviation === abbreviation)
+
+  if (team === undefined) {
+    return res.status(404).render('404', {
+      layout: 'main',
+      message: 'It seems that the team you are looking for is not registered.',
+    })
+  }
 
   res.render('team', {
     layout: 'main',
@@ -65,6 +76,13 @@ teamRouter.get('/teams/:abbreviation', (req, res) => {
 teamRouter.get('/teams/:abbreviation/edit', (req, res) => {
   const { abbreviation } = req.params
   const team = getTeamByAbbreviation(abbreviation)
+
+  if (team === undefined) {
+    return res.status(404).render('404', {
+      layout: 'main',
+      message: 'It seems that the team you are looking for is not registered.',
+    })
+  }
 
   res.render('team-edit', {
     layout: 'main',
@@ -77,7 +95,6 @@ teamRouter.post(
   upload.single('image'),
   (req, res) => {
     const { abbreviation } = req.params
-    console.log(abbreviation)
     const teamData = teamApiMapper(req.body)
     const team = getTeamByAbbreviation(abbreviation)
 
@@ -88,5 +105,12 @@ teamRouter.post(
     return res.status(200).send()
   },
 )
+
+teamRouter.use((_, res) => {
+  res.status(404).render('404', {
+    layout: 'main',
+    message: '',
+  })
+})
 
 export default teamRouter

@@ -81,7 +81,7 @@ export function createTeam(newTeam) {
 
   const isExistent = checkTeamExists(teamsDB, newTeam.tla)
   if (isExistent !== undefined) {
-    throw new Error('Abbreviation already exists')
+    return new Error('Abbreviation already exists')
   }
 
   const teams = teamsDB.toSpliced(teamsDB.length, 0, newTeam)

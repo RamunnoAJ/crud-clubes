@@ -49,7 +49,7 @@ export function updateTeam(abbreviation, newTeam) {
       } else if (key === 'tla') {
         team.abbreviation = newTeam.tla
       } else {
-        team[key] = newTeam[key]
+        team[key] = newTeam[key] || team[key]
       }
     }
   }

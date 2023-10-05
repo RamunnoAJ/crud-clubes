@@ -1,13 +1,27 @@
 const $form = document.querySelector('#form')
 $form.addEventListener('submit', e => {
-  handleCreateTeam(e)
+  handleForm(e)
 })
 
 /**
  * @param {Event} e
  * */
-function handleCreateTeam(e) {
+function handleForm(e) {
   e.preventDefault()
+
+  let route
+  let method
+  let text
+  if (window.location.href.includes('create')) {
+    text = 'Team created successfully'
+    method = 'POST'
+    route = '/teams/create'
+  } else {
+    text = 'Team updated successfully'
+    method = 'PATCH'
+    route = `/teams/${$form.abbreviation.value}`
+  }
+
   const errors = handleErrors(e)
 
   if (errors.length > 0) {
@@ -22,19 +36,29 @@ function handleCreateTeam(e) {
   const formData = new FormData($form)
   formData.append('image', $fileInput.files)
 
-  fetch('/teams/create', {
-    method: 'POST',
+  fetch(`${route}`, {
+    method,
     body: formData,
   }).then(response => {
     if (!response.ok) {
       return response.text().then(data => console.error(data))
     }
 
+    // eslint-disable-next-line no-undef
+    Toastify({
+      text,
+      duration: 3000,
+      gravity: 'top',
+      close: false,
+      className:
+        'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-900',
+    }).showToast()
+
     document.body.style = 'cursor: wait'
 
     setTimeout(() => {
       window.location.href = `/teams/${abbreviation}`
-    }, 1500)
+    }, 1000)
   })
 }
 

@@ -19,11 +19,11 @@ app.use(express.text('*/*'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-app.use('/', teamRouter)
-
 app.get('/public/uploads/images/:filename', (req, res) => {
   res.sendFile(__dirname + '/public/uploads/images/' + req.params.filename)
 })
+
+app.use('/', teamRouter)
 
 app.listen(PORT)
 console.log(`Listening on  localhost:${PORT}`)

@@ -66,7 +66,7 @@ teamRouter.post('/teams/create', upload.single('image'), (req, res) => {
   if (team instanceof Error)
     return res.status(400).send('Abbreviation already exists.')
 
-  return res.status(200).send(`Team ${team.abbreviation} created successfully.`)
+  return res.status(200).send(`Team created successfully.`)
 })
 
 teamRouter.delete('/teams/:id', (req, res) => {
@@ -119,21 +119,21 @@ teamRouter.get('/teams/:abbreviation/edit', (req, res) => {
   })
 })
 
-teamRouter.post(
-  '/teams/update/:abbreviation',
-  upload.single('image'),
-  (req, res) => {
-    const { abbreviation } = req.params
-    const teamData = teamApiMapper(req.body)
-    const team = getTeamByAbbreviation(abbreviation)
+teamRouter.patch('/teams/:abbreviation', upload.single('image'), (req, res) => {
+  if (req.file !== undefined) {
+    req.body.image = '/' + req.file.path
+  }
 
-    if (team === undefined) return res.status(400).send()
+  const { abbreviation } = req.params
+  const teamData = teamApiMapper(req.body)
+  const team = getTeamByAbbreviation(abbreviation)
 
-    updateTeam(team.abbreviation, teamData)
+  if (team === undefined) return res.status(400).send()
 
-    return res.status(200).send()
-  },
-)
+  updateTeam(team.abbreviation, teamData)
+
+  return res.status(200).send()
+})
 
 teamRouter.use((_, res) => {
   res.status(404).render('404', {

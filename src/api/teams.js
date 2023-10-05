@@ -6,9 +6,18 @@ import { checkTeamExists } from '../utils/checkTeamExists.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const teamsDirectory = __dirname + '../../data/equipos.json'
+const teamsBackupDirectory = __dirname + '../../data/equipos-backup.json'
 
 const apiTeam = JSON.parse(fs.readFileSync(teamsDirectory, 'utf8'))
 const teamsDB = apiTeam.map(team => teamMapper(team))
+
+const teamsBackupDB = JSON.parse(
+  fs.readFileSync(teamsBackupDirectory, 'utf8'),
+).map(team => teamApiMapper(team))
+
+export function resetTeams() {
+  return fs.writeFileSync(teamsDirectory, JSON.stringify(teamsBackupDB))
+}
 
 /**
  * @param {string} abbreviation

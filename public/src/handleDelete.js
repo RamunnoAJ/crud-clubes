@@ -1,11 +1,16 @@
-const $btnReset = document.querySelector('#button-reset')
-$btnReset.addEventListener('click', handleReset)
+const $buttonsDelete = document.querySelectorAll('#button-delete')
 
-function handleReset(e) {
+$buttonsDelete.forEach(button => {
+  button.addEventListener('click', handleDeleteFromIndex)
+})
+
+function handleDeleteFromIndex(e) {
   e.preventDefault()
 
-  fetch('/reset', {
-    method: 'POST',
+  const id = e.target.parentNode.parentNode.parentNode.dataset.teamId
+
+  fetch(`/teams/${id}`, {
+    method: 'DELETE',
   }).then(response => {
     if (!response.ok) {
       return response.text().then(data => console.error(data))
@@ -14,7 +19,7 @@ function handleReset(e) {
 
   // eslint-disable-next-line no-undef
   Toastify({
-    text: 'Teams resetted successfully',
+    text: 'Team deleted successfully',
     duration: 3000,
     gravity: 'top',
     close: false,

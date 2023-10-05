@@ -39,9 +39,11 @@
               class='fa-solid fa-pen hover:text-purple-700 transition-all duration-300 ease-in-out cursor-pointer text-lg'
             ></i>
           </a>
-          <i
-            class='fa-solid fa-trash hover:text-red-700 transition-all duration-300 ease-in-out cursor-pointer text-lg'
-          ></i>
+          <button id='button-delete'>
+            <i
+              class='fa-solid fa-trash hover:text-red-700 transition-all duration-300 ease-in-out cursor-pointer text-lg'
+            ></i>
+          </button>
         </td>
       </tr>
     {{/each}}
@@ -49,3 +51,4 @@
 </table>
 
 <script src='/src/handleReset.js'></script>
+<script src='/src/handleDelete.js'></script>

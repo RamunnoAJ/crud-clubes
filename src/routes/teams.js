@@ -5,6 +5,8 @@ import {
   updateTeam,
   createTeam,
   resetTeams,
+  deleteTeam,
+  getTeamByID,
 } from '../api/teams.js'
 import { teamApiMapper } from '../mappers/teams.js'
 import { handleErrorsCreateTeam } from '../utils/handleErrors.js'
@@ -64,7 +66,23 @@ teamRouter.post('/teams/create', upload.single('image'), (req, res) => {
   if (team instanceof Error)
     return res.status(400).send('Abbreviation already exists.')
 
-  return res.status(200).send()
+  return res.status(200).send(`Team ${team.abbreviation} created successfully.`)
+})
+
+teamRouter.delete('/teams/:id', (req, res) => {
+  const { id } = req.params
+  const team = getTeamByID(Number(id))
+
+  if (team === undefined) {
+    return res.status(404).render('404', {
+      layout: 'main',
+      message: 'It seems that the team you are looking for is not registered.',
+    })
+  }
+
+  deleteTeam(team.abbreviation)
+
+  return res.status(200).send(`Team ${team.abbreviation} deleted successfully`)
 })
 
 teamRouter.get('/teams/:abbreviation', (req, res) => {

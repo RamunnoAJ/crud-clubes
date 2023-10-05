@@ -24,9 +24,11 @@ export function resetTeams() {
  * */
 export function deleteTeam(abbreviation) {
   const team = getTeamByAbbreviation(abbreviation)
-  teamsDB.splice(teamsDB.indexOf(team), 1)
+  const newTeams = teamsDB
+    .toSpliced(teamsDB.indexOf(team), 1)
+    .map(team => teamApiMapper(team))
 
-  return fs.writeFileSync(teamsDirectory, JSON.stringify(teamsDB))
+  return fs.writeFileSync(teamsDirectory, JSON.stringify(newTeams))
 }
 
 /**
@@ -77,6 +79,18 @@ export function getTeamByAbbreviation(abbreviation) {
   if (!abbreviation) throw new Error('Invalid team abbreviation')
 
   const team = teamsDB.find(team => team.abbreviation === abbreviation)
+
+  return team
+}
+
+/**
+ * @param {number} id
+ * @returns {Team}
+ */
+export function getTeamByID(id) {
+  if (!id) throw new Error('Invalid team id')
+
+  const team = teamsDB.find(team => team.id === id)
 
   return team
 }

@@ -29,13 +29,13 @@ function handleCreateTeam(e) {
     if (!response.ok) {
       return response.text().then(data => console.error(data))
     }
+
+    document.body.style = 'cursor: wait'
+
+    setTimeout(() => {
+      window.location.href = `/teams/${abbreviation}`
+    }, 1500)
   })
-
-  document.body.style = 'cursor: wait'
-
-  setTimeout(() => {
-    window.location.href = `/teams/${abbreviation}`
-  }, 1500)
 }
 
 function handleErrors(e) {

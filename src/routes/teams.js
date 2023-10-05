@@ -4,6 +4,7 @@ import {
   getTeamByAbbreviation,
   updateTeam,
   createTeam,
+  resetTeams,
 } from '../api/teams.js'
 import { teamApiMapper } from '../mappers/teams.js'
 import { handleErrorsCreateTeam } from '../utils/handleErrors.js'
@@ -23,6 +24,16 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 const teamRouter = Router()
+
+teamRouter.post('/reset', (_, res) => {
+  try {
+    resetTeams()
+  } catch (error) {
+    res.status(400).send(error)
+  }
+
+  res.status(200).send()
+})
 
 teamRouter.get('/', (_, res) => {
   const teams = getTeams()

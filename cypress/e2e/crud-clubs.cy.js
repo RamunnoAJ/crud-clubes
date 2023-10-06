@@ -46,4 +46,22 @@ context('crud-clubs', () => {
       cy.url().should('eq', `${URL}teams/WKP`)
     })
   })
+
+  describe('Edit team', () => {
+    it('should navigate to the form to edit a team', () => {
+      cy.get("a[href='/teams/ARS/edit']").click()
+      cy.url().should('eq', `${URL}teams/ARS/edit`)
+    })
+
+    it('should edit the teams name', () => {
+      cy.get('#name').clear()
+      cy.get('#name').type('Arsenal ARG')
+      cy.get('button[type=submit]').click()
+
+      cy.get('.toast').should('have.length', 1)
+
+      cy.url().should('eq', `${URL}teams/ARS`)
+      cy.get('h2').should('have.text', 'Arsenal ARG')
+    })
+  })
 })

@@ -37,24 +37,23 @@ export function deleteTeam(abbreviation) {
  * */
 export function updateTeam(abbreviation, newTeam) {
   const team = teamsDB.find(team => team.abbreviation === abbreviation)
-  const isExistent = checkTeamExists(teamsDB, newTeam.tla)
   newTeam.lastUpdated = new Date().toISOString()
 
-  for (const key in newTeam) {
-    if (newTeam[key] !== undefined) {
-      if (key === 'area') {
-        team.country = newTeam.area.name
-      } else if (key === 'crestUrl') {
-        team.crestUrl = newTeam.image
-      } else if (key === 'tla') {
-        team.abbreviation = newTeam.tla
-      } else {
-        team[key] = newTeam[key] || team[key]
-      }
-    }
-  }
+  team.id = newTeam.id || team.id
+  team.country = newTeam.area.name || team.country
+  team.name = newTeam.name || team.name
+  team.abbreviation = newTeam.tla || team.abbreviation
+  team.crestUrl = newTeam.image || team.crestUrl
+  team.address = newTeam.address || team.address
+  team.phone = newTeam.phone || team.phone
+  team.website = newTeam.website || team.website
+  team.email = newTeam.email || team.email
+  team.founded = newTeam.founded || team.founded
+  team.clubColors = newTeam.colors || team.clubColors
+  team.venue = newTeam.stadium || team.venue
+  team.lastUpdated = newTeam.lastUpdated || team.lastUpdated
 
-  if (isExistent !== undefined && team.abbreviation !== newTeam.tla) {
+  if (!team && team.abbreviation !== newTeam.tla) {
     throw new Error('Abbreviation already exists')
   }
 

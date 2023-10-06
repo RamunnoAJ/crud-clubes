@@ -8,7 +8,7 @@
     "lint": "eslint --fix . --ext .js",
     "format": "prettier --write .",
     "start": "nodemon index.js",
-    "test:e2e": "cypress open"
+    "test:e2e": "cypress open -p 3001"
   },
   "keywords": [],
   "author": "",

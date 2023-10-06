@@ -11,14 +11,29 @@ context('crud-clubs', () => {
     cy.wait('@reset')
   })
 
+  describe('View team', () => {
+    it('should view a team', () => {
+      cy.get('a[href="/teams/ARS"]').click()
+
+      cy.url().should('eq', `${URL}teams/ARS`)
+
+      cy.get('h2').should('have.text', 'Arsenal FC')
+      cy.get('h3').should('have.text', 'Website')
+      cy.get('h3>a').should('have.attr', 'href', 'http://www.arsenal.com')
+    })
+  })
+
   describe('Add new team', () => {
     it('should navigate to the form to add a new team', () => {
+      cy.visit(URL)
+      cy.intercept('GET', `${URL}teams`).as('teams')
       cy.get('#button-add').click()
 
-      cy.url().should('include', `/teams/create`)
+      cy.url().should('eq', `${URL}/teams/create`)
     })
 
     it('should try to create a new team with invalid data', () => {
+      cy.intercept('POST', `${URL}teams/create`).as('create')
       cy.get('button[type=submit]').click()
 
       cy.get('.toast').should('have.length', 6)
@@ -49,6 +64,7 @@ context('crud-clubs', () => {
 
   describe('Edit team', () => {
     it('should navigate to the form to edit a team', () => {
+      cy.visit(URL)
       cy.get("a[href='/teams/ARS/edit']").click()
       cy.url().should('eq', `${URL}teams/ARS/edit`)
     })

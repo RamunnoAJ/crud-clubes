@@ -23,6 +23,25 @@ context('crud-clubs', () => {
     })
   })
 
+  describe('Delete team', () => {
+    it('should delete a team', () => {
+      cy.intercept('DELETE', `${URL}teams/ARS`).as('delete')
+      cy.get('#button-delete').click()
+
+      cy.visit(URL)
+      cy.get('strong').should('have.text', '19')
+    })
+  })
+
+  describe('Reset teams', () => {
+    it('should reset teams', () => {
+      cy.intercept('GET', `${URL}teams`).as('teams')
+      cy.get('#button-reset').click()
+
+      cy.get('strong').should('have.text', '20')
+    })
+  })
+
   describe('Add new team', () => {
     it('should navigate to the form to add a new team', () => {
       cy.visit(URL)

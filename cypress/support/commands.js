@@ -22,4 +22,18 @@
 //
 //
 // -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+//
+import 'cypress-file-upload'
+
+Cypress.Commands.add(
+  'uploadFile',
+  { prevSubject: 'element' },
+  (subject, file, fileName) => {
+    cy.wrap(subject).attachFile({
+      fileContent: file,
+      fileName,
+      mimeType: 'application/octet-stream',
+      encoding: 'utf-8',
+    })
+  },
+)

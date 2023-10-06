@@ -51,7 +51,7 @@ function handleForm(e) {
       gravity: 'top',
       close: false,
       className:
-        'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-900',
+        'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-900 toast',
     }).showToast()
 
     document.body.style = 'cursor: wait'
@@ -108,7 +108,7 @@ function handleErrors(e) {
       close: false,
       gravity: 'top',
       className:
-        'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-900',
+        'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-900 toast',
     }).showToast()
   })
 

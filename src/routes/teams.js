@@ -1,14 +1,13 @@
 import { Router } from 'express'
 import {
   getTeams,
-  getTeamByAbbreviation,
   updateTeam,
   createTeam,
   resetTeams,
   deleteTeam,
   getTeamByID,
 } from '../api/teams.js'
-import { teamApiMapper } from '../mappers/teams.js'
+import { teamApiMapper } from '../mappers/teamsApi.js'
 import { handleErrorsCreateTeam } from '../utils/handleErrors.js'
 import multer from 'multer'
 import path from 'path'
@@ -71,7 +70,8 @@ teamRouter.post('/teams/create', upload.single('image'), (req, res) => {
 
 teamRouter.delete('/teams/:id', (req, res) => {
   const { id } = req.params
-  const team = getTeamByID(Number(id))
+  const idNumber = Number(id)
+  const team = getTeamByID(idNumber)
 
   if (team === undefined) {
     return res.status(404).render('404', {
@@ -80,14 +80,15 @@ teamRouter.delete('/teams/:id', (req, res) => {
     })
   }
 
-  deleteTeam(team.abbreviation)
+  deleteTeam(team.id)
 
   return res.status(200).send(`Team ${team.abbreviation} deleted successfully`)
 })
 
-teamRouter.get('/teams/:abbreviation', (req, res) => {
-  const { abbreviation } = req.params
-  const team = getTeams().find(team => team.abbreviation === abbreviation)
+teamRouter.get('/teams/:id', (req, res) => {
+  const { id } = req.params
+  const idNumber = Number(id)
+  const team = getTeams().find(team => team.id === idNumber)
 
   if (team === undefined) {
     return res.status(404).render('404', {
@@ -102,9 +103,10 @@ teamRouter.get('/teams/:abbreviation', (req, res) => {
   })
 })
 
-teamRouter.get('/teams/:abbreviation/edit', (req, res) => {
-  const { abbreviation } = req.params
-  const team = getTeamByAbbreviation(abbreviation)
+teamRouter.get('/teams/:id/edit', (req, res) => {
+  const { id } = req.params
+  const idNumber = Number(id)
+  const team = getTeamByID(idNumber)
 
   if (team === undefined) {
     return res.status(404).render('404', {
@@ -119,18 +121,19 @@ teamRouter.get('/teams/:abbreviation/edit', (req, res) => {
   })
 })
 
-teamRouter.patch('/teams/:abbreviation', upload.single('image'), (req, res) => {
+teamRouter.patch('/teams/:id', upload.single('image'), (req, res) => {
   if (req.file !== undefined) {
     req.body.image = '/' + req.file.path
   }
 
-  const { abbreviation } = req.params
+  const { id } = req.params
+  const idNumber = Number(id)
   const teamData = teamApiMapper(req.body)
-  const team = getTeamByAbbreviation(abbreviation)
+  const team = getTeamByID(idNumber)
 
   if (team === undefined) return res.status(400).send()
 
-  updateTeam(team.abbreviation, teamData)
+  updateTeam(team.id, teamData)
 
   return res.status(200).send()
 })

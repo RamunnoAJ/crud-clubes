@@ -1,8 +1,8 @@
 /** @typedef {import('../entities/teams.js').Team} Team */
 import fs from 'fs'
 import * as url from 'url'
-import { teamApiMapper, teamMapper } from '../mappers/teams.js'
-import { checkTeamExists } from '../utils/checkTeamExists.js'
+import { teamMapper } from '../mappers/teams.js'
+import { teamApiMapper } from '../mappers/teamsApi.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const teamsDirectory = __dirname + '../../data/equipos.json'
@@ -22,8 +22,8 @@ export function resetTeams() {
 /**
  * @param {string} abbreviation
  * */
-export function deleteTeam(abbreviation) {
-  const team = getTeamByAbbreviation(abbreviation)
+export function deleteTeam(id) {
+  const team = getTeamByID(id)
   const newTeams = teamsDB
     .toSpliced(teamsDB.indexOf(team), 1)
     .map(team => teamApiMapper(team))
@@ -35,8 +35,8 @@ export function deleteTeam(abbreviation) {
  * @param {string} abbreviation
  * @param {Team} newTeam
  * */
-export function updateTeam(abbreviation, newTeam) {
-  const team = teamsDB.find(team => team.abbreviation === abbreviation)
+export function updateTeam(id, newTeam) {
+  const team = getTeamByID(id)
   newTeam.lastUpdated = new Date().toISOString()
 
   team.id = newTeam.id || team.id
@@ -73,7 +73,7 @@ export function getTeams() {
 /**
  * @param {string} abbreviation
  * @returns {Team}
- * */
+ */
 export function getTeamByAbbreviation(abbreviation) {
   if (!abbreviation) throw new Error('Invalid team abbreviation')
 
@@ -101,7 +101,7 @@ export function createTeam(newTeam) {
   newTeam.lastUpdated = new Date().toISOString()
   newTeam.id = getLastTeam().id + 1
 
-  const isExistent = checkTeamExists(teamsDB, newTeam.tla)
+  const isExistent = getTeamByAbbreviation(newTeam.tla)
   if (isExistent !== undefined) {
     return new Error('Abbreviation already exists')
   }

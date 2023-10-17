@@ -1,12 +1,12 @@
 const $form = document.querySelector('#form')
 $form.addEventListener('submit', e => {
-  handleForm(e)
+  handleForm(e, 1000)
 })
 
 /**
  * @param {Event} e
  * */
-function handleForm(e) {
+function handleForm(e, delay) {
   e.preventDefault()
 
   let route
@@ -17,9 +17,11 @@ function handleForm(e) {
     method = 'POST'
     route = '/teams/create'
   } else {
+    const url = window.location.href.split('/')
+    const id = url[url.length - 2]
     text = 'Team updated successfully'
     method = 'PATCH'
-    route = `/teams/${$form.abbreviation.value}`
+    route = `/teams/${id}`
   }
 
   const errors = handleErrors(e)
@@ -31,7 +33,6 @@ function handleForm(e) {
     return
   }
 
-  const abbreviation = $form.abbreviation.value
   const $fileInput = document.getElementById('image')
   const formData = new FormData($form)
   formData.append('image', $fileInput.files)
@@ -57,8 +58,8 @@ function handleForm(e) {
     document.body.style = 'cursor: wait'
 
     setTimeout(() => {
-      window.location.href = `/teams/${abbreviation}`
-    }, 1000)
+      window.location.href = `/`
+    }, delay)
   })
 }
 

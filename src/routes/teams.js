@@ -14,7 +14,7 @@ import path from 'path'
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
-    cb(null, 'public/uploads/images/')
+    cb(null, 'public/uploads/')
   },
   filename: (_, file, cb) => {
     const ext = path.extname(file.originalname)

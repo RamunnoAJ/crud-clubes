@@ -20,8 +20,8 @@ app.use(express.text('*/*'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-app.get('/public/uploads/images/:filename', (req, res) => {
-  res.sendFile(__dirname + '/public/uploads/images/' + req.params.filename)
+app.get('/public/uploads/:filename', (req, res) => {
+  res.sendFile(__dirname + '/public/uploads/' + req.params.filename)
 })
 
 app.use('/', teamRouter)

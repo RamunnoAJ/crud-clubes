@@ -24,8 +24,11 @@ export function resetTeams() {
  * */
 export function deleteTeam(id) {
   const team = getTeamByID(id)
+  const teamIndex = teamsDB.indexOf(team)
+
   const newTeams = teamsDB
-    .toSpliced(teamsDB.indexOf(team), 1)
+    .slice(0, teamIndex)
+    .concat(teamsDB.slice(teamIndex + 1))
     .map(team => teamApiMapper(team))
 
   return fs.writeFileSync(teamsDirectory, JSON.stringify(newTeams))
@@ -37,6 +40,7 @@ export function deleteTeam(id) {
  * */
 export function updateTeam(id, newTeam) {
   const team = getTeamByID(id)
+  const teamIndex = teamsDB.indexOf(team)
   newTeam.lastUpdated = new Date().toISOString()
 
   team.id = newTeam.id || team.id
@@ -57,7 +61,11 @@ export function updateTeam(id, newTeam) {
     throw new Error('Abbreviation already exists')
   }
 
-  const teams = teamsDB.toSpliced(teamsDB.indexOf(team), 1, team)
+  const teams = teamsDB
+    .slice(0, teamIndex)
+    .concat(teamsDB.slice(teamIndex + 1))
+    .map(team => teamApiMapper(team))
+
   const updatedTeams = teams.map(team => teamApiMapper(team))
 
   return fs.writeFileSync(teamsDirectory, JSON.stringify(updatedTeams))
@@ -106,7 +114,7 @@ export function createTeam(newTeam) {
     return new Error('Abbreviation already exists')
   }
 
-  const teams = teamsDB.toSpliced(teamsDB.length, 0, newTeam)
+  const teams = [...teamsDB, newTeam]
   const updatedTeams = teams.map(team => teamApiMapper(team))
 
   return fs.writeFileSync(teamsDirectory, JSON.stringify(updatedTeams))

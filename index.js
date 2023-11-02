@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import * as url from 'url'
 import express from 'express'
 import expresshbs from 'express-handlebars'
@@ -5,7 +6,7 @@ import cors from 'cors'
 import teamRouter from './src/routes/teams.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
-const PORT = 8080
+const NODE_URL = process.env.NODE_URL || 'http://localhost:8080/'
 
 const app = express()
 const hbs = expresshbs.create()
@@ -25,5 +26,5 @@ app.get('/public/uploads/images/:filename', (req, res) => {
 
 app.use('/', teamRouter)
 
-app.listen(PORT)
-console.log(`Listening on  localhost:${PORT}`)
+app.listen(NODE_URL)
+console.log(`Listening on ${NODE_URL}`)

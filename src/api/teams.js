@@ -3,6 +3,7 @@ import fs from 'fs'
 import * as url from 'url'
 import { teamMapper } from '../mappers/teams.js'
 import { teamApiMapper } from '../mappers/teamsApi.js'
+import { replaceElement } from '../utils/functions.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const teamsDirectory = __dirname + '../../data/equipos.json'
@@ -61,11 +62,7 @@ export function updateTeam(id, newTeam) {
     throw new Error('Abbreviation already exists')
   }
 
-  const teams = teamsDB
-    .slice(0, teamIndex)
-    .concat(teamsDB.slice(teamIndex + 1))
-    .map(team => teamApiMapper(team))
-
+  const teams = replaceElement(teamsDB, teamIndex, newTeam)
   const updatedTeams = teams.map(team => teamApiMapper(team))
 
   return fs.writeFileSync(teamsDirectory, JSON.stringify(updatedTeams))
